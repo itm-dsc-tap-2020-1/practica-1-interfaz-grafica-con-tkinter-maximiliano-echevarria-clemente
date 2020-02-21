@@ -1,0 +1,191 @@
+import tkinter as tk
+from tkinter import Menu
+from tkinter import scrolledtext
+from tkinter import messagebox as mbox
+from tkinter import ttk
+
+def Opcion_Radio(aux):
+    switcher ={
+        1:  "Soltero",
+        2:  "Viudo",
+        3:  "Casado",
+        4:  "Divorciado",
+        5:  "Es complicado",
+
+    } 
+    return switcher.get(aux, "Informacion no completa")
+
+def funcion_click():
+    if(entrada.get() == '' 
+       or entrada1.get() == '' 
+       or entrada2.get() == '' 
+       or entrada3.get() == '' 
+       or coloniaSelect.get() == '' 
+       or ciudadSelect.get() == '' 
+       or municipioSelect.get() == ''): 
+        accion.configure(text="Faltan Campos")
+    else:
+       crear_ventana()
+
+def crear_ventana():
+    ventana2 = tk.Tk()
+    ventana2.geometry("400x200")
+    ventana2.title("Datos Personales")
+    etiqueta1=ttk.Label(ventana2, text="Eres: "+nombre.get()+" "+nombre1.get()+" "+nombre2.get()+"\n"+"Vives en "+direccion.get()+", "+colonia.get()+", "+ciudad.get())
+    etiqueta1.grid(column=0,row=0)
+def funcion_caja_mensaje():
+    mbox.showinfo('Acerca de','Esta inferfaz fue creada por kiwi development')
+
+def funcion_click2():
+    crear_ventana2()
+
+def funcion_salir():
+    ventana.quit()
+    ventana.destroy()
+    exit
+
+def crear_ventana2():
+    ventana3 = tk.Tk()
+    ventana3.geometry("400x200")
+    ventana3.title("Preferencias")
+    aux = opcion.get()
+    ttk.Label(ventana3, text= "Estas: "+Opcion_Radio(aux)+"\n Te gusta:").grid(column=0, row=0)
+    if var1.get() == 1:
+        ttk.Label(ventana3, text= chk.cget("text")+", ").grid(column=0, row=0)
+    if var2.get() == 1:
+         ttk.Label(ventana3, text= chk2.cget("text")+", ").grid(column=1, row=1)
+    if var3.get() == 1:
+         ttk.Label(ventana3, text= chk3.cget("text")+", ").grid(column=2, row=1)
+    if var4.get() == 1:
+         ttk.Label(ventana3, text= chk4.cget("text")+", ").grid(column=3, row=1)
+    if var5.get() == 1: 
+         ttk.Label(ventana3, text= chk5.cget("text")+".").grid(column=4, row=1)
+    ttk.Label(ventana3, text=caja.get()).place(x=0,y=50)
+    
+def funcion_click3():
+    crear_ventana()
+    crear_ventana2()
+
+#------ Ventana FORMULARIO
+ventana = tk.Tk()
+ventana.title("Sistema de Registro")
+ventana.geometry("500x500")
+ventana.resizable(0,0)
+barra_menu=Menu(ventana)
+ventana.config(menu=barra_menu)
+#------ Menu ventana
+menu_sistema= Menu(barra_menu,tearoff=0)
+menu_sistema.add_command(label="Imprimir", command=funcion_click3)
+menu_sistema.add_command(label="Salir",command=funcion_salir)
+barra_menu.add_cascade(label="Sistema", menu=menu_sistema)
+#------ 2do menu
+menu_ayuda= Menu(barra_menu,tearoff=0)
+menu_ayuda.add_command(label="Acerca de", command=funcion_caja_mensaje)
+barra_menu.add_cascade(label="Ayuda",menu=menu_ayuda)
+#------ Pestañas
+notebook = ttk.Notebook(ventana)
+notebook.pack(fill='both', expand='yes')
+frame1 = ttk.Frame(notebook)
+frame2 = ttk.Frame(notebook)
+
+notebook.add(frame1, text='Uno')
+notebook.add(frame2, text='Dos')
+
+#------- TITULO
+ttk.Label(frame1, text="Captura de Alumnos", font = ("Agency FB", 10)).place(x=80,y=0)
+
+#------- TextBox Nombre
+ttk.Label(frame1, text="Nombre:").place(x=30,y=50)
+nombre = tk.StringVar()
+entrada= ttk.Entry(frame1, width = 12, textvariable=nombre)
+nombre=entrada
+entrada.place(x=150,y=50)
+
+#------- TextBox ApellidoP
+ttk.Label(frame1, text="Apellido Paterno:").place(x=30,y=90)
+nombre1 = tk.StringVar()
+entrada1 = ttk.Entry(frame1, width = 12, textvariable=nombre1)
+entrada1.place(x=150,y=90)
+
+#------- TextBox ApellidoM
+ttk.Label(frame1, text="Apellido Materno:").place(x=30,y=130)
+nombre2 = tk.StringVar()
+entrada2 = ttk.Entry(frame1, width = 12, textvariable=nombre2)
+entrada2.place(x=150,y=130)
+
+#------- TextBox Dirección
+ttk.Label(frame1, text="Dirección:").place(x=30,y=170)
+direccion = tk.StringVar()
+entrada3 = ttk.Entry(frame1, width = 12, textvariable=direccion)
+entrada3.place(x=150,y=170)
+
+#------- TextBox Colonia
+ttk.Label(frame1, text="Colonia:").place(x=30,y=210)
+colonia = tk.StringVar()
+coloniaSelect = ttk.Combobox(frame1, width=10, textvariable=colonia)
+coloniaSelect['values'] = ("José María Izazaga", "Ejidal Tres Puentes", "Manzanito")
+coloniaSelect.place(x=150,y=210)
+#------- TextBox Ciudad
+ttk.Label(frame1, text="Ciudad:").place(x=30,y=250)
+ciudad = tk.StringVar()
+ciudadSelect = ttk.Combobox(frame1, width=10, textvariable=ciudad)	
+ciudadSelect['values'] = ("Morelia", "Apatzingan", "Hidalgo")
+ciudadSelect.place(x=150,y=250)
+
+#------- TextBox Municipio
+ttk.Label(frame1, text="Municipio:").place(x=30,y=290)
+municipio = tk.StringVar()
+municipioSelect = ttk.Combobox(frame1, width=10, textvariable=municipio)
+municipioSelect['values'] = ("Morelia", "Apatzingan", "Hidalgo")
+municipioSelect.place(x=150,y=290)
+#------- boton registrar
+accion = ttk.Button(frame1, text="Registrar", command = funcion_click)
+accion.place(x=200,y=350)
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#CheckButtons
+ttk.Label(frame2, text= "Pasatiempos"). grid(column=1, row=7)
+var1 = tk.IntVar()
+var2 = tk.IntVar()
+var3 = tk.IntVar()
+var4 = tk.IntVar()
+var5 = tk.IntVar()
+chk = tk.Checkbutton(frame2, text="Futbol", variable=var1)
+chk.grid(column=0, row=8)
+chk2 = tk.Checkbutton(frame2, text="Basketball", variable=var2)
+chk2.grid(column=1,row=8)
+chk3 = tk.Checkbutton(frame2, text="Musica", variable=var3)
+chk3.grid(column=2,row=8)
+chk4 = tk.Checkbutton(frame2, text="Programar", variable=var4)
+chk4.grid(column=0,row=9)
+chk5 = tk.Checkbutton(frame2, text="Leer", variable=var5)
+chk5.grid(column=1,row=9)
+
+#RadioButtons
+ttk.Label(frame2, text= "Estado"). grid(column=1, row=11)
+opcion = tk.IntVar()
+aux = opcion.get()  
+radio1 = tk.Radiobutton(frame2, text= "Soltero", variable= opcion, value=1)
+radio1.grid(column=0,row=12)
+radio2 = tk.Radiobutton(frame2, text= "Viudo", variable= opcion, value=2)
+radio2.grid(column=1,row=12)
+radio3 = tk.Radiobutton(frame2, text= "Casado", variable= opcion, value=3)
+radio3.grid(column=2,row=12)
+radio4 = tk.Radiobutton(frame2, text= "Divorciado", variable= opcion, value=4)
+radio4.grid(column=1,row=13)
+radio5 = tk.Radiobutton(frame2, text= "Es complicado", variable= opcion, value=5)
+radio5.grid(column=0,row=13)
+
+#------- TextBox
+ttk.Label(frame2, text = "Objetivo de la vida").grid(column=1, row=14)
+caja = tk.StringVar()
+caja1 = ttk.Entry(frame2, width = 20, textvariable=caja)
+caja1.grid(column=1, row=15)
+
+#Boton_Registrar2
+accion2=ttk.Button(frame2,text="Registrar", command=funcion_click2)
+accion2.grid(column=1, row=18)
+
+#iniciar ventana
+ventana.mainloop()
